@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="es.source.code.activity">
+
+    <permission
+        android:name="scos.permission.ACCESSSCOS"
+        android:protectionLevel="dangerous" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Activity.SCOSEntry">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.MainActivity"
+            android:label="@string/title_activity_main"
+            android:permission="scos.permission.ACCESSSCOS">
+            <intent-filter>
+                <action android:name="scos.intent.action.SCOSMAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="scos.intent.category.SCOSLAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.LoginOrRegister"
+            android:label="@string/title_activity_login_or_register" />
+        <activity android:name=".Activity.FoodView" />
+        <activity
+            android:name=".Activity.FourFragment"
+            android:label="@string/title_activity_four_fragment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.OneFragment"
+            android:label="@string/title_activity_one_fragment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.TwoFragment"
+            android:label="@string/title_activity_two_fragment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.ThreeFragment"
+            android:label="@string/title_activity_three_fragment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.FoodOrderView"
+            android:label="@string/title_activity_food_order_view"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.OneOderFragment"
+            android:label="@string/title_activity_one_oder_fragment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.TwoOrderFragment"
+            android:label="@string/title_activity_two_order_fragment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.FoodDetailed"
+            android:label="@string/title_activity_food_detailed"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
+
+</manifest>

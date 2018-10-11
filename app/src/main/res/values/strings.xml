@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SCOS</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_login_or_register">LoginOrRegister</string>
+    <string name="title_activity_food_view">FoodView</string>
+    <string name="title_activity_four_fragment">FourFragment</string>
+    <string name="title_activity_one_fragment">OneFragment</string>
+    <string name="title_activity_two_fragment">TwoFragment</string>
+    <string name="title_activity_three_fragment">ThreeFragment</string>
+    <string name="title_activity_food_order">FoodOrder</string>
+    <string name="title_activity_food_order_view">FoodOrderView</string>
+    <string name="title_activity_one_oder_fragment">OneOderFragment</string>
+    <string name="title_activity_two_order_fragment">TwoOrderFragment</string>
+    <string name="title_activity_food_detailed">FoodDetailed</string>
+</resources>
