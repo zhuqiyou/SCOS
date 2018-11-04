@@ -12,18 +12,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import es.source.code.activity.Adapter.myFragmentAdapter;
 import es.source.code.activity.Bean.OrderFood;
 import es.source.code.activity.R;
+import es.source.code.activity.model.User;
 
 public class FoodOrderView extends AppCompatActivity {
     private TabLayout mTablayout;
     private ViewPager mViewpager;
     private TabLayout.Tab one,two;
     private List<OrderFood> orderFood = new ArrayList<OrderFood>();
+
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,5 +91,12 @@ public class FoodOrderView extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent();
+//        intent.putExtra("FoodOrder",(Serializable)orderFood);
+        setResult(1,intent);
+        finish();
     }
 }

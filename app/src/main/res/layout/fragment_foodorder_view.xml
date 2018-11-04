@@ -25,7 +25,7 @@
             android:background="#CDC1C5"
             android:id="@+id/tv_foodorder_view_foodsum"
             android:text="菜品总数
-                                    23"/>
+                                    8"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -39,9 +39,9 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:focusable="false"
-            android:background="#CD99C5"
+            android:background="#CD90C5"
             android:id="@+id/btn_foodorder_view_order"
-            android:text="下单"/>
+            android:text="结账"/>
     </LinearLayout>
 
 </LinearLayout>

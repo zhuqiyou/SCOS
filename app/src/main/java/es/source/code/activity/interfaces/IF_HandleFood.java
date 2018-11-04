@@ -6,6 +6,5 @@ public interface IF_HandleFood {
 
     void addFood(Food food);
 
-//    void AllPrice(Food food);
 
 }

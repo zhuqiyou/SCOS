@@ -8,11 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import es.source.code.activity.Activity.FoodOrderView;
 import es.source.code.activity.Activity.FoodView;
 import es.source.code.activity.Activity.LoginOrRegister;
+import es.source.code.activity.Bean.OrderFood;
 import es.source.code.activity.Bean.ProductListBean;
 import es.source.code.activity.R;
 
@@ -33,8 +38,8 @@ public class MyGridViewAdapter extends BaseAdapter  {
         this.mIndex = mIndex;
         this.mPagerSize = mPagerSize;
         inflater = LayoutInflater.from(context);
-    }
 
+    }
     /**
      * 先判断数据集的大小是否足够显示满本页？listData.size() > (mIndex + 1)*mPagerSize
      * 如果满足，则此页就显示最大数量mPagerSize的个数
@@ -73,28 +78,6 @@ public class MyGridViewAdapter extends BaseAdapter  {
         ProductListBean bean = listData.get(pos);
         holder.proName.setText(bean.getProName());
         holder.imgUrl.setImageResource(bean.getImgUrl());
-        //添加item监听
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(context, "你点击了 " + listData.get(pos).getProName(), Toast.LENGTH_SHORT).show();
-                if(position == 0){
-                    Intent intent = new Intent(context, FoodView.class);
-                            context.startActivity(intent);
-                    Toast.makeText(context, "你点击了点菜 ", Toast.LENGTH_SHORT).show();
-                }
-                if(position == 1){
-                    Intent intent = new Intent(context, FoodOrderView.class);
-                    context.startActivity(intent);
-                    Toast.makeText(context, "你点击了订单 ", Toast.LENGTH_SHORT).show();
-                }
-                if(position == 2){
-                    Intent intent = new Intent(context, LoginOrRegister.class);
-                           context.startActivity(intent);
-                    Toast.makeText(context, "你点击了登陆 ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
         return convertView;
     }
 

@@ -7,18 +7,33 @@
     android:orientation="horizontal"
     tools:context="es.source.code.activity.Activity.MainActivity">
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="80dp"
+        android:layout_weight="2"
+        android:id="@+id/iv_item_food" />
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:id="@+id/tv_name"
+        android:textColor="#7B68EE"
         android:text="菜名"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:id="@+id/tv_price"
+        android:textColor="#FF0000"
         android:text="价格"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textStyle = "bold"
+        android:textColor="#436EEE"
+        android:id="@+id/tv_number"
+        android:text="数量  1"/>
     <Button
         android:layout_width="50dp"
         android:layout_height="match_parent"

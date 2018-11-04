@@ -23,12 +23,16 @@ public class FoodAdapter extends ArrayAdapter {
     public View getView(int position,View convertView,ViewGroup parent){
         Food f = (Food) getItem(position);
         View view;
+
         if(convertView == null){
 //            使用Inflater对象来将布局文件解析成一个View
             view = LayoutInflater.from(getContext()).inflate(resourceId,null);
+
+
         }else {
             view  = convertView;
         }
+
         TextView foodName = (TextView) view.findViewById(R.id.tv_name);
         TextView foodPrice = (TextView) view.findViewById(R.id.tv_price);
         foodName.setText(f.getFoodName());

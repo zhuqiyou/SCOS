@@ -1,6 +1,9 @@
 package es.source.code.activity.Activity;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,11 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import es.source.code.activity.Adapter.MyOrderAdapterFromBase;
 import es.source.code.activity.Adapter.OrderFoodAdapter;
 import es.source.code.activity.Bean.Food;
@@ -27,6 +28,7 @@ public class TwoOderFragment extends Fragment {
     private ListView list_view,list_view_btn;
     private List<OrderFood> orderfoodList = new ArrayList<OrderFood>();
     private List<Food> foodList = new ArrayList<Food>();
+    private Button btn_zhangdan;
 
 
     public static TwoOderFragment newInstance(List<OrderFood> orderfood){
@@ -45,44 +47,42 @@ public class TwoOderFragment extends Fragment {
     @Override
     public void onViewCreated(View view,@Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+        btn_zhangdan=(Button)getView().findViewById(R.id.btn_foodorder_view_order);
+        btn_zhangdan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MyClass().execute();
+//                Toast.makeText(getContext(), "积分增加", Toast.LENGTH_SHORT).show();
+            }
 
-        initFoods();   // 初始化菜单数据
-//        OrderFoodAdapter adapter = new OrderFoodAdapter(getContext(), R.layout.order_food_item, orderfoodList);
-//        ListView listView = (ListView) getView().findViewById(R.id.list_order_view);
-//        listView.setAdapter(adapter);
+        });
+        initFoods();
+         // 初始化菜单数据
+        OrderFoodAdapter adapter = new OrderFoodAdapter(getContext(), R.layout.order_food_item, orderfoodList);
+        ListView listView = (ListView) getView().findViewById(R.id.list_order_view);
+        listView.setAdapter(adapter);
        // 初始化按钮
         MyOrderAdapterFromBase myAdapterFromBase = new MyOrderAdapterFromBase(getContext(),orderfoodList,onClickListener);
         ListView list_view_btn = (ListView) getView().findViewById(R.id.list_order_view);
         list_view_btn.setAdapter(myAdapterFromBase);
-
         list_view_btn.setOnItemClickListener(new OnItemClickHandler());
     }
     private void initFoods() {
         if(getArguments() != null){
             orderfoodList = (List<OrderFood>)getArguments().getSerializable("orderfoodlist");
         }
-//        OrderFood apple = new OrderFood("Apple", 80,2,"无");
-//        orderfoodList.add(apple);
-//        OrderFood banana = new OrderFood("Apple", 80,2,"无");
-//        orderfoodList.add(banana);
-//        Food orange = new Food("手撕兔肉", 30);
-//        foodList.add(orange);
-//        Food watermelon = new Food("老醋蜇头",50);
-//        foodList.add(watermelon);
-//        Food pear = new Food("日式鹅肝",34);
-//        foodList.add(pear);
-//        Food grape = new Food("口水鸡",80);
-//        foodList.add(grape);
-//        Food pineapple = new Food("五香牛肉", 46);
-//        foodList.add(pineapple);
-//        Food strawberry = new Food("菊花豆腐",20);
-//        foodList.add(strawberry);
-//        Food cherry = new Food("美极螺头",50);
-//        foodList.add(cherry);
-//        Food mango = new Food("酱香肘花", 60);
-//        foodList.add(mango);
-//        Food pijiu = new Food("雪花",34);
-//        foodList.add(pijiu);
+        Food orange = new Food("手撕兔肉", 30);
+        orderfoodList.add(new OrderFood(orange));
+        Food huashneg = new Food("老醋花生", 30);
+        orderfoodList.add(new OrderFood(huashneg));
+        Food zhouzi = new Food("水晶肘子", 40);
+        orderfoodList.add(new OrderFood(zhouzi));
+        Food koushuiji = new Food("口水鸡", 80);
+        orderfoodList.add(new OrderFood(koushuiji));
+        Food yu = new Food("水煮鱼", 56);
+        orderfoodList.add(new OrderFood(yu));
+        Food dachang = new Food("拉炒大肠", 123);
+        orderfoodList.add(new OrderFood(dachang));
     }
 
 
@@ -109,5 +109,34 @@ public class TwoOderFragment extends Fragment {
             Toast.makeText(getContext(), show, Toast.LENGTH_SHORT).show();
         }
     };
+
+    class  MyClass extends AsyncTask<String,Integer,Void> {
+
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+        @Override
+        protected Void doInBackground(String... strings) {
+            SystemClock.sleep(6000);
+            return null;
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressDialog.setProgress(values[0]);
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+            Toast.makeText(getContext(), "积分增加", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

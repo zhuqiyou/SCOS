@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -63,8 +64,10 @@ public class MyAdapterFromBase extends BaseAdapter {
 
             holder = new ViewHolder();
 
+            holder.img = (ImageView) convertView.findViewById(R.id.iv_item_food);
             holder.title = (TextView) convertView.findViewById(R.id.tv_name);
             holder.price = (TextView) convertView.findViewById(R.id.tv_price);
+            holder.number = (TextView) convertView.findViewById(R.id.tv_number);
             holder.btn = (Button) convertView.findViewById(R.id.btn_order);
 
             convertView.setTag(holder);
@@ -73,19 +76,22 @@ public class MyAdapterFromBase extends BaseAdapter {
         }
         Food f = mDatas.get(position);
         if(f != null){
+            holder.img.setImageResource(f.getImg());
             holder.title.setText(f.getFoodName());
             holder.price.setText(Double.toString(f.getFoodPrice()));
+            holder.number.setText(Double.toString(f.getNumber()));
             // 通常将position设置为tag，方便之后判断点击的button是哪一个
             holder.btn.setTag(position);
             holder.btn.setOnClickListener(this.mOnClickListener);
         }
-
         return convertView;
     }
 
     static class ViewHolder{
+        ImageView img;
         TextView title;
         TextView price;
+        TextView number;
         Button btn;
     }
 }

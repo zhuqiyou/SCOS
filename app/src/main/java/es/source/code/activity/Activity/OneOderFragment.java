@@ -39,51 +39,30 @@ public class OneOderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container ,Bundle savedInstanceState){
         return inflater.inflate(R.layout.fragment_foodorder_view,container,false);
-
-
     }
 
     @Override
     public void onViewCreated(View view,@Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
-        //初始化按钮
-//        MyOrderAdapterFromBase myAdapterFromBase = new MyOrderAdapterFromBase(getContext(),orderfoodList,onClickListener);
-//        ListView list_view_btn = (ListView) getView().findViewById(R.id.list_order_view);
-//        list_view_btn.setAdapter(myAdapterFromBase);
         initFoods();   // 初始化菜单数据
         OrderFoodAdapter adapter = new OrderFoodAdapter(getContext(), R.layout.order_food_item, orderfoodList);
         ListView listView = (ListView) getView().findViewById(R.id.list_order_view);
         listView.setAdapter(adapter);
-
-
-        //list_view_btn.setOnItemClickListener(new OnItemClickHandler());
     }
     private void initFoods() {
         if(getArguments() != null){
             orderfoodList = (List<OrderFood>)getArguments().getSerializable("orderfoodlist");
         }
-
     }
 
-
-//    private class OnItemClickHandler implements AdapterView.OnItemClickListener{
-//
-//        @Override
-//        public void onItemClick(AdapterView<?> parent,View view,int position,long id){
-//            Toast.makeText(getContext(), "退点成功", Toast.LENGTH_SHORT).show();
-//        }
-//    }
     private View.OnClickListener onClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View view){
             Button btn = (Button) view;
             int pos = (Integer) btn.getTag();
-
             String fName = orderfoodList.get(pos).getFood().getFoodName();
             String fPrice = Double.toString(orderfoodList.get(pos).getFood().getFoodPrice());
-
             String show = "退点成功";
-
             Toast.makeText(getContext(), show, Toast.LENGTH_SHORT).show();
         }
     };

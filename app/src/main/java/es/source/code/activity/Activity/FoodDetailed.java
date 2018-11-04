@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import java.util.List;
 import es.source.code.activity.Bean.Food;
 import es.source.code.activity.R;
@@ -32,8 +31,6 @@ public class FoodDetailed extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.food_detailed);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
         et_name = (EditText) findViewById(R.id.food_item_name);
         iv_food = (ImageView) findViewById(R.id.imageView);
         et_price=(EditText) findViewById(R.id.food_item_price);
@@ -54,10 +51,6 @@ public class FoodDetailed extends AppCompatActivity {
         }else{
             iv_food.setImageResource(R.mipmap.ic_launcher);
         }
-
-
-//        ImageView img = new ImageView(getContext());
-//        img.setImageResource(index);
 
 
         GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
@@ -95,6 +88,7 @@ public class FoodDetailed extends AppCompatActivity {
                         et_name.setText(name);
                         Double price = food.getFoodPrice();
                         et_price.setText(Double.toString(price));
+                        img =food.getImg();
                         if(img != 0){
                             iv_food.setImageResource(img);
                         }else{

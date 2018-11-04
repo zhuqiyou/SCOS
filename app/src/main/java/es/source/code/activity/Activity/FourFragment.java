@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.source.code.activity.Adapter.FoodAdapter;
+//import es.source.code.activity.Adapter.FoodAdapter;
 import es.source.code.activity.Adapter.MyAdapterFromBase;
 import es.source.code.activity.Bean.Food;
 import es.source.code.activity.R;
@@ -52,38 +56,36 @@ public class FourFragment extends Fragment {
     public void onViewCreated(View view,@Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        initFoods();   // 初始化菜单数据
-//        FoodAdapter adapter = new FoodAdapter(getContext(), R.layout.food_item, foodList);
-//        ListView listView = (ListView) getView().findViewById(R.id.list_view);
-//        listView.setAdapter(adapter);
-        //初始化按钮
+        initFoods();
+        //初始化菜单
+//        使用适配器将数据加载
         MyAdapterFromBase myAdapterFromBase = new MyAdapterFromBase(getContext(),foodList,onClickListener);
-        ListView list_view_btn = (ListView) getView().findViewById(R.id.list_view);
+        list_view_btn = (ListView) getView().findViewById(R.id.list_view);
         list_view_btn.setAdapter(myAdapterFromBase);
 
         list_view_btn.setOnItemClickListener(new OnItemClickHandler());
     }
 
     private void initFoods() {
-        Food apple = new Food("北京二锅头",56);
+        Food apple = new Food(R.drawable.baijiu,"北京二锅头",56,2);
         foodList.add(apple);
-        Food banana = new Food("五连特曲",98);
+        Food banana = new Food(R.drawable.baijiu,"五连特曲",98,23);
         foodList.add(banana);
-        Food orange = new Food("老白干", 100);
+        Food orange = new Food(R.drawable.baijiu,"老白干", 100,11);
         foodList.add(orange);
-        Food watermelon = new Food("青岛啤酒",67);
+        Food watermelon = new Food(R.drawable.baijiu,"青岛啤酒",67,23);
         foodList.add(watermelon);
-        Food pear = new Food("崂山啤酒",65);
+        Food pear = new Food(R.drawable.baijiu,"崂山啤酒",65,33);
         foodList.add(pear);
-        Food grape = new Food("雪花勇闯天涯", 90);
+        Food grape = new Food(R.drawable.baijiu,"雪花勇闯天涯", 90,2);
         foodList.add(grape);
-        Food pineapple = new Food("茅台",3000);
+        Food pineapple = new Food(R.drawable.baijiu,"茅台",3000,5);
         foodList.add(pineapple);
-        Food strawberry = new Food("趵突泉",56);
+        Food strawberry = new Food(R.drawable.baijiu,"趵突泉",56,89);
         foodList.add(strawberry);
-        Food cherry = new Food("雪碧",90);
+        Food cherry = new Food(R.drawable.baijiu,"雪碧",90,90);
         foodList.add(cherry);
-        Food mango = new Food("芒果汁", 45);
+        Food mango = new Food(R.drawable.baijiu,"芒果汁", 45,78);
         foodList.add(mango);
     }
 
@@ -92,8 +94,6 @@ public class FourFragment extends Fragment {
 
         @Override
         public void onItemClick(AdapterView<?> parent,View view,int position,long id){
-//            Toast.makeText(getContext(), "点菜成功", Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent(getContext(),FoodDetailed.class);
             intent.putExtra("foodlist",(Serializable)foodList);
             intent.putExtra("index",position);
@@ -110,11 +110,30 @@ public class FourFragment extends Fragment {
 
             String fName = foodList.get(pos).getFoodName();
             String fPrice = Double.toString(foodList.get(pos).getFoodPrice());
-
             String show = "点菜成功";
-
             Toast.makeText(getContext(), show, Toast.LENGTH_SHORT).show();
         }
     };
+
+    /*
+            更新
+ */
+    @Override
+    public void onStart(){
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe
+    public void onReceiveEvent(List<Food> foodList){
+        Log.i("显示", "执行");
+        MyAdapterFromBase myAdapterFromBase = new MyAdapterFromBase(getContext(),foodList,onClickListener);
+        list_view_btn.setAdapter(myAdapterFromBase);
+    }
 
 }

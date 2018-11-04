@@ -12,4 +12,7 @@
     <string name="title_activity_one_oder_fragment">OneOderFragment</string>
     <string name="title_activity_two_order_fragment">TwoOrderFragment</string>
     <string name="title_activity_food_detailed">FoodDetailed</string>
+    <string name="title_activity_scoshelper">SCOSHelper</string>
+    <string name="title_activity_massage">MassageActivity</string>
+    <string name="title_activity_email">EmailActivity</string>
 </resources>

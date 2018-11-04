@@ -3,22 +3,26 @@ package es.source.code.activity.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.DialogInterface;
 import android.widget.EditText;
+
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import android.text.TextWatcher;
-
 import es.source.code.activity.R;
 import es.source.code.activity.model.User;
+import es.source.code.activity.model.Util;
 
 
-public class LoginOrRegister extends ActionBarActivity implements View.OnClickListener {
+public class LoginOrRegister extends AppCompatActivity implements View.OnClickListener {
     private Button btn_login,btn_return,btn_zhuce;
+    private EditText et_name,et_psd;
     private ProgressDialog mProgressDialog;
 
     private EditText EtAccount;
@@ -31,13 +35,19 @@ public class LoginOrRegister extends ActionBarActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_or_register);
 
+        et_name =(EditText)findViewById(R.id.editText);
+        et_psd = (EditText)findViewById(R.id.editText2);
         btn_login = (Button) findViewById(R.id.button3);
         btn_login.setOnClickListener(this);
         btn_return =(Button) findViewById(R.id.button7);
         btn_return.setOnClickListener(this);
         btn_zhuce=(Button) findViewById(R.id.btn_zhuce);
         btn_zhuce.setOnClickListener(this);
+
         mProgressDialog = new ProgressDialog(this);
+
+        Map<String,String> userMap = Util.getInfo(this);
+        et_name.setText(userMap.get("name"));
 
         initDate();
 
@@ -51,14 +61,10 @@ public class LoginOrRegister extends ActionBarActivity implements View.OnClickLi
         EtAccount.addTextChangedListener(new TextWatcher() {
             //文字改变前的回调方法
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             //文字改变时的回调方法
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
             //文字改变后的回调方法
             @Override
             public void afterTextChanged(Editable s) {
@@ -97,30 +103,17 @@ public class LoginOrRegister extends ActionBarActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
-            case R.id.button3:
+            case R.id.button3://登录
+
+                String name = et_name.getText().toString().trim();
+                String password = et_psd.getText().toString().trim();
                 mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
                 mProgressDialog.setCancelable(false);// 设置是否可以通过点击Back键取消
                 mProgressDialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
                 mProgressDialog.setIcon(R.mipmap.ic_launcher); // 设置提示的title的图标，默认是没有的，如果没有设置title的话只设置Icon是不会显示图标的
                 mProgressDialog.setTitle("注意：");
-                // dismiss监听
-                mProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        // TODO Auto-generated method stub
-//                Toast.makeText(ProgressBarActivity.this, "消失", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                // 监听cancel事件
-                mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        // TODO Auto-generated method stub
-//                Toast.makeText(ProgressBarActivity.this, "取消", Toast.LENGTH_SHORT).show();
-                    }
-                });
                 //设置可点击的按钮，最多有三个(默认情况下)
                 mProgressDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定",
                         new DialogInterface.OnClickListener() {
@@ -135,6 +128,8 @@ public class LoginOrRegister extends ActionBarActivity implements View.OnClickLi
 
                     @Override
                     public void run() {
+//                        String name = et_name.getText().toString().trim();
+//                        String password = et_psd.getText().toString().trim();
                         // TODO Auto-generated method stub
                         try {
                             Thread.sleep(2000);
@@ -143,11 +138,9 @@ public class LoginOrRegister extends ActionBarActivity implements View.OnClickLi
                                 loginUser.getUserName();
                                 loginUser.getPassword();
                                 loginUser.setOldUser(true);
-
                                 Intent intent = new Intent();
-                                intent.setClass(LoginOrRegister.this, MainActivity.class);
                                 intent.putExtra("message", "LoginSuccess");
-                                startActivity(intent);
+                                setResult(2, intent);
                                 finish();
                             }
                             // mProgressDialog.dismiss();
@@ -155,12 +148,13 @@ public class LoginOrRegister extends ActionBarActivity implements View.OnClickLi
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-
                     }
                 }).start();
+                Log.i("LoginOrRegister", "记住密码" + name + "," + password);
+                boolean isSaveSuccess = Util.saveInfo(LoginOrRegister.this, name, password);
 
                 break;
-            case R.id.button7:
+            case R.id.button7://返回
                 Intent intent = new Intent();
                 intent.setClass(this, MainActivity.class);
                 intent.putExtra("message", "Return");
@@ -168,7 +162,7 @@ public class LoginOrRegister extends ActionBarActivity implements View.OnClickLi
 
                 finish();
                 break;
-            case R.id.btn_zhuce:
+            case R.id.btn_zhuce://zhuce
 
                 if(bAcconut&&bPassword){
                     User loginUser=new User();
@@ -177,22 +171,16 @@ public class LoginOrRegister extends ActionBarActivity implements View.OnClickLi
                     loginUser.setOldUser(true);
 
                     Intent intent_zhuce = new Intent();
-                    intent_zhuce.setClass(this, MainActivity.class);
                     intent_zhuce.putExtra("message", "RegisterSuccess");
-                    startActivity(intent_zhuce);
+                    setResult(2, intent_zhuce);
                     finish();
                     break;
                 }else {
                     Intent intent_zhuce = new Intent();
-                    intent_zhuce.setClass(this, LoginOrRegister.class);
                     intent_zhuce.putExtra("message", "false");
-                    startActivity(intent_zhuce);
+                    setResult(2, intent_zhuce);
                     finish();
                 }
-
-
-
-
         }
     }
     private boolean isAccountNumber(String phoneStr) {
@@ -212,7 +200,13 @@ public class LoginOrRegister extends ActionBarActivity implements View.OnClickLi
         Intent intent = getIntent();
         //SCOSEntry跳到MainActivity
         String data = intent.getStringExtra("message");
+    }
 
-
+    @Override
+    public void onBackPressed(){
+        Intent intent_zhuce = new Intent();
+        intent_zhuce.putExtra("message", "false");
+        setResult(2,intent_zhuce);
+        finish();
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -51,38 +55,35 @@ public class ThreeFragment extends Fragment {
     public void onViewCreated(View view,@Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        initFoods();   // 初始化菜单数据
-        FoodAdapter adapter = new FoodAdapter(getContext(), R.layout.food_item, foodList);
-        ListView listView = (ListView) getView().findViewById(R.id.list_view);
-        listView.setAdapter(adapter);
-        //初始化按钮
+        initFoods();
+        //初始化菜单
         MyAdapterFromBase myAdapterFromBase = new MyAdapterFromBase(getContext(),foodList,onClickListener);
-        ListView list_view_btn = (ListView) getView().findViewById(R.id.list_view);
+        list_view_btn = (ListView) getView().findViewById(R.id.list_view);
         list_view_btn.setAdapter(myAdapterFromBase);
 
         list_view_btn.setOnItemClickListener(new OnItemClickHandler());
     }
 
     private void initFoods() {
-        Food apple = new Food("大虾",123);
+        Food apple = new Food(R.drawable.shuizhuyu,"大虾",123,2);
         foodList.add(apple);
-        Food banana = new Food("麻辣小龙虾",322);
+        Food banana = new Food(R.drawable.shuizhuyu,"麻辣小龙虾",322,6);
         foodList.add(banana);
-        Food orange = new Food("正宗烤鱼", 200);
+        Food orange = new Food(R.drawable.shuizhuyu,"正宗烤鱼", 200,89);
         foodList.add(orange);
-        Food watermelon = new Food("酸菜鱼", 100);
+        Food watermelon = new Food(R.drawable.shuizhuyu,"酸菜鱼", 100,65);
         foodList.add(watermelon);
-        Food pear = new Food("水煮鱼",21);
+        Food pear = new Food(R.drawable.shuizhuyu,"水煮鱼",21,4);
         foodList.add(pear);
-        Food grape = new Food("红烧螃蟹",352);
+        Food grape = new Food(R.drawable.shuizhuyu,"红烧螃蟹",352,5);
         foodList.add(grape);
-        Food pineapple = new Food("甲鱼",1000);
+        Food pineapple = new Food(R.drawable.shuizhuyu,"甲鱼",1000,6);
         foodList.add(pineapple);
-        Food strawberry = new Food("黑鱼",23);
+        Food strawberry = new Food(R.drawable.shuizhuyu,"黑鱼",23,6);
         foodList.add(strawberry);
-        Food cherry = new Food("草鱼", 43);
+        Food cherry = new Food(R.drawable.shuizhuyu,"草鱼", 43,6);
         foodList.add(cherry);
-        Food mango = new Food("鲇鱼",3);
+        Food mango = new Food(R.drawable.shuizhuyu,"鲇鱼",3,6);
         foodList.add(mango);
     }
 
@@ -91,7 +92,6 @@ public class ThreeFragment extends Fragment {
 
         @Override
         public void onItemClick(AdapterView<?> parent,View view,int position,long id){
-//            Toast.makeText(getContext(), "点菜成功", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getContext(),FoodDetailed.class);
             intent.putExtra("foodlist",(Serializable)foodList);
             intent.putExtra("index",position);
@@ -114,4 +114,26 @@ public class ThreeFragment extends Fragment {
             Toast.makeText(getContext(), show, Toast.LENGTH_SHORT).show();
         }
     };
+
+    /*
+接收
+ */
+    @Override
+    public void onStart(){
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe
+    public void onReceiveEvent(List<Food> foodList){
+        Log.i("显示", "执行");
+        MyAdapterFromBase myAdapterFromBase = new MyAdapterFromBase(getContext(),foodList,onClickListener);
+        list_view_btn.setAdapter(myAdapterFromBase);
+    }
+
 }

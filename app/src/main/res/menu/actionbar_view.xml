@@ -12,8 +12,13 @@
         app:showAsAction="always"
         android:title="查看订单"/>
     <item
-        android:id="@+id/favo_p"
+        android:id="@+id/menu_update"
         android:icon="@drawable/chankan"
-        app:showAsAction="always"
-        android:title="呼叫服务"/>
+        app:showAsAction="ifRoom"
+        android:title="开始更新"/>
+    <item
+        android:id="@+id/menu_stop"
+        android:icon="@drawable/chankan"
+        app:showAsAction="ifRoom"
+        android:title="停止更新"/>
 </menu>

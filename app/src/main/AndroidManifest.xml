@@ -6,16 +6,24 @@
         android:name="scos.permission.ACCESSSCOS"
         android:protectionLevel="dangerous" />
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/timg"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <service android:name="es.source.code.activity.service.ServerObserverService"
+            android:process=":remote"/>
+        <service android:name=".service.UpdateService"/>
         <activity android:name=".Activity.SCOSEntry">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,9 +39,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.LoginOrRegister"
+            android:name="es.source.code.activity.Activity.LoginOrRegister"
             android:label="@string/title_activity_login_or_register" />
-        <activity android:name=".Activity.FoodView" />
+        <activity android:name="es.source.code.activity.Activity.FoodView" />
         <activity
             android:name=".Activity.FourFragment"
             android:label="@string/title_activity_four_fragment"
@@ -65,7 +73,30 @@
         <activity
             android:name=".Activity.FoodDetailed"
             android:label="@string/title_activity_food_detailed"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.SCOSHelper"
+            android:label="@string/title_activity_scoshelper"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.MassageActivity"
+            android:label="@string/title_activity_massage"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.EmailActivity"
+            android:label="@string/title_activity_email"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <receiver
+            android:name=".br.DeviceStartedListener"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="scos.intent.action.CLOSE_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
